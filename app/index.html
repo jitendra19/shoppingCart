@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Responsive Shopping Cart</title>
+    <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/style.css">
+            <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    
+  </head>
+
+  <body ng-app="checkoutModule">
+
+    <h1>Shopping Cart</h1>
+
+<div ng-controller="mainController" class="shopping-cart">
+
+  <div class="column-labels">
+    <label class="product-image">Image</label>
+    <label class="product-details">Product</label>
+    <label class="product-size">Size</label>
+    <label class="product-quantity">Quantity</label>
+    <label class="product-removal">Action</label>
+    <label class="product-line-price">Total</label>
+  </div>
+
+  <div ng-repeat="item in data.productsInCart track by item.p_id">
+      <div class="product">
+        <div class="product-image">
+          <img src="images/T{{item.p_id}}.jpg">
+        </div>
+        <div class="product-details">
+          <div class="product-title">{{item.p_variation | uppercase}} {{item.p_name | uppercase}}</div>
+          <div class="product-description" 
+               style="font-family:"HelveticaNeue-Medium", "Helvetica Neue Medium";">
+               Style: {{item.p_style}}</div>
+          <div class="product-description"
+               style="font-family:"HelveticaNeue-Medium", "Helvetica Neue Medium";">
+              Color: {{item.p_selected_color.name}}</div>
+        </div>
+        <div class="product-size">{{item.p_selected_size.code}}</div>
+        <div class="product-quantity">
+          <input type="number" ng-model= "item.p_quantity" min="1">
+        </div>
+        <div class="product-removal">
+          <button class="remove-product" ng-click="openModal(item.p_id)">
+            Edit
+          </button>
+          <button class="remove-product">
+            Remove
+          </button>
+        </div>
+        <div class="product-line-price">{{item.p_originalprice}}</div>
+    </div>
+  </div>
+
+<div class="checkout-border"></div>
+<br>
+
+  <div class="totals">
+    <div class="totals-item">
+      <label>Enter Promo code</label>
+      <div class="discount-code">
+        <input type="text"></input>
+        <button class="apply-discount">
+            Apply
+        </button>
+      </div>
+    </div>
+    <div class="totals-item">
+      <label>Subtotal</label>
+      <div class="totals-value" id="cart-subtotal">{{subTotal}}</div>
+    </div>
+    <div class="totals-item" ng-if="promoCode != ''">
+      <label>Discount ({{promoCode}})</label>
+      <div class="totals-value" id="cart-tax">{{discountValue}}</div>
+    </div>
+    <div class="totals-item">
+      <label>Estimated Shipping</label>
+      <div class="discount-code totals-item-total" id="cart-shipping">FREE</div>
+    </div>
+    <div class="totals-item">
+      <label>Estimated Total</label>
+      <div class="totals-value totals-item-total" id="cart-total">{{subTotal-discountValue}}</div>
+    </div>
+  </div>
+      
+      <button class="checkout">Checkout</button>
+
+</div>
+
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3>I'm a modal!</h3>
+        </div>
+        <form ng-submit="submit()">
+          <div class="modal-body">
+          You can map Json feed per requirement as we did on main page.
+          <div class="product-image">
+            <img src="images/T{{id}}.jpg">
+          </div>
+          </div>
+          <div class="modal-footer">
+              <button class="remove-product" ng-click="cancel()">Cancel</button>
+              <input type="submit" class="remove-product" value="Submit" />
+          </div>
+        </form>
+    </script>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src="js/index.js"></script>
+  
+  <script src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.js"></script>
+  <script src="js/checkoutModule.js"></script>
+  </body>
+</html>
